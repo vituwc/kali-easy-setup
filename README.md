@@ -31,7 +31,7 @@ Claro! Vou atualizar o `README` para incluir a necessidade de executar como admi
    sudo bash kali-easy-setup.sh
    ```
 
-   **Nota:** O script precisa de permissões administrativas para configurar o sistema corretamente.
+   **Nota:** O script precisa de permissões administrativas caso contrario nao ira executar.
 
 ## Como Contribuir
 
