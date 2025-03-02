@@ -1,36 +1,43 @@
-Kali Mate
+Aqui está o seu README reorganizado e formatado para ser mais claro e bem estruturado. O texto agora segue um formato comum de README para projetos no GitHub, incluindo seções bem definidas e algumas melhorias no estilo.
+
+```markdown
+# Kali Mate
 
 Kali Mate é um script simples para ajudar iniciantes na instalação do Kali Linux, configuração de ambientes de desktop (DEs) e outras configurações básicas. Foi criado para praticar Bash scripting e, embora seja focado em facilitar o setup inicial, o objetivo é expandir para funcionalidades mais avançadas no futuro.
 
-Funcionalidades
+## Funcionalidades
 
-Instalação automatizada do Kali Linux
+- Instalação automatizada do Kali Linux
+- Configuração básica de Ambientes de Desktop (DEs)
+- Outras configurações essenciais para iniciantes
 
-Configuração básica de Ambientes de Desktop (DEs)
+## Como Instalar
 
-Outras configurações essenciais para iniciantes
+1. Clone o repositório:
 
-Como Instalar
+   ```bash
+   git clone https://github.com/vituwc/kali-easy-setup
+   ```
 
-Clone o repositório:
+2. Navegue até o diretório do repositório clonado:
 
-git clone https://github.com/vituwc/kali-easy-setup
+   ```bash
+   cd kali-easy-setup
+   ```
 
-Navegue até o diretório do repositório clonado:
+3. Execute o script como administrador (root):
 
-cd kali-easy-setup
+   ```bash
+   sudo bash kali-easy-setup.sh
+   ```
 
-Execute o script como administrador (root):
+   **Nota**: O script precisa de permissões administrativas. Caso contrário, não irá executar.
 
-sudo bash kali-easy-setup.sh
-
-Nota: O script precisa de permissões administrativas, caso contrário, não irá executar.
-
-Como Contribuir
+## Como Contribuir
 
 Se você tem sugestões ou melhorias para o script, sinta-se à vontade para abrir um pull request ou issue. Todo feedback é bem-vindo!
 
-Licença
+## Licença
 
-Este projeto está licenciado sob a Licença MIT - veja o arquivo LICENSE para mais detalhes.
-
+Este projeto está licenciado sob a Licença MIT - veja o arquivo [LICENSE](LICENSE) para mais detalhes.
+```
