@@ -1,8 +1,8 @@
 #!/bin/bash
 #                                                             ,        ,
 #                                                            ,        ,
-#made by  vituwc                                            /(        )`                                  
-#script basico, apenas para testar meus conhecimentos       \ \___   / |                                  
+#made by vituwc                                             /(        )`                                  
+#basic script, just to test my knowledge                    \ \___   / |                                  
 #https://github.com/vituwc                                 /- _  `-/  '                                  
 #It's not about being good. It's about being good enough. (/\/ \ \   /\                                  
 #                                                        / /   | `    \                                
@@ -20,57 +20,67 @@
 #                                                    ,'  ,-----'   |        \                          
 #                                                    `--{__________)        \/ 
 
-RESET='\033[0m'
-RED='\033[1;31m'
-GREEN='\033[1;32m'
-YELLOW='\033[1;33m'
-BLUE='\033[1;34m'
+RESET='\033[0m'  # Reset color formatting
+RED='\033[1;31m'  # Red color
+GREEN='\033[1;32m'  # Green color
+YELLOW='\033[1;33m'  # Yellow color
+BLUE='\033[1;34m'  # Blue color
 
-instalacao="${BLUE}[${YELLOW} + ${BLUE}]${GREEN} Instalação iniciada. Isso pode demorar um pouco. (^_^)${RESET}"
-instalacao_concluida="${BLUE}[${YELLOW} + ${BLUE}]${GREEN} Instalação concluída com sucesso! Voltando ao menu inicial...(^.^)${RESET}"
+# Installation status messages
+instalacao="${BLUE}[${YELLOW} + ${BLUE}]${GREEN} Installation started. This may take a while. (^_^)${RESET}"
+instalacao_concluida="${BLUE}[${YELLOW} + ${BLUE}]${GREEN} Installation completed successfully! Returning to the main menu...(^.^)${RESET}"
 
 file="/etc/apt/sources.list"
 
-# verifica se o script esta sendo executado como root ($.$)($.$)($.$)($.$)sudoooooooooooooooo
+# Check if the script is being executed as root (root privileges are required)
 if [ "$(id -u)" -ne 0 ]; then
-    echo -e "${BLUE}[ ${YELLOW}! ${BLUE}]${RED} Esse programa deve ser executado como root!${RESET}"
+    echo -e "${BLUE}[ ${YELLOW}! ${BLUE}]${RED} This program must be run as root!${RESET}"
     exit 1
 fi
-# essa aqui limpa e editao sources.list. [o_o]
-# Tem que melhorar isso pq meu deus  (".")
+
+# Function to edit and clean the sources.list file
 editar_sources_list() {
+    # Check again if the script is run as root
     if [ "$(id -u)" -ne 0 ]; then
-        echo -e "${BLUE}[ ${YELLOW} 1! ${BLUE}]${RED} Esse programa deve ser executado como root!${RESET}"
+        echo -e "${BLUE}[ ${YELLOW} 1! ${BLUE}]${RED} This program must be run as root!${RESET}"
         exit 1
     fi
 
-    echo -e "${BLUE}[${YELLOW} + ${BLUE}]${GREEN} Limpando o arquivo /etc/apt/sources.list...${RESET}"
+    # Clear the /etc/apt/sources.list file
+    echo -e "${BLUE}[${YELLOW} + ${BLUE}]${GREEN} Cleaning the /etc/apt/sources.list file...${RESET}"
     sudo truncate -s 0 /etc/apt/sources.list
 
-    echo -e "${BLUE}[${YELLOW} + ${BLUE}]${GREEN} Adicionando repositório do Kali Linux ao sources.list...${RESET}"
+    # Add Kali Linux repository to the sources.list file
+    echo -e "${BLUE}[${YELLOW} + ${BLUE}]${GREEN} Adding Kali Linux repository to the sources.list...${RESET}"
     echo "deb http://http.kali.org/kali kali-rolling main contrib non-free non-free-firmware" | sudo tee -a /etc/apt/sources.list > /dev/null
 
-    echo -e "${BLUE}[${YELLOW} + ${BLUE}]${GREEN} Atualizando os pacotes...${RESET}"
+    # Update packages from the added repository
+    echo -e "${BLUE}[${YELLOW} + ${BLUE}]${GREEN} Updating packages...${RESET}"
     sudo apt-get update -q
 
-    echo -e "${BLUE}[${YELLOW} + ${BLUE}]${GREEN} Repositório do Kali adicionado e pacotes atualizados com sucesso!${RESET}"
+    # Confirm repository added and packages updated
+    echo -e "${BLUE}[${YELLOW} + ${BLUE}]${GREEN} Kali repository added and packages updated successfully!${RESET}"
 }
-# essa funcao verifica se as dependencias necessarias entao instaladas (^_^)
+
+# Function to check and install necessary dependencies (if not installed)
 verifica_dependencias() {
+    # List of required packages
     dependencias=("apt" "curl" "wget" "git")  
 
+    # Loop through each dependency and check if it is installed
     for pacote in "${dependencias[@]}"; do
         if ! command -v "$pacote" &>/dev/null; then
-            echo -e "${RED}[${YELLOW}! ${RED}] Pacote $pacote não encontrado. Instalando...${RESET}"
+            # If not installed, install the package
+            echo -e "${RED}[${YELLOW}! ${RED}] Package $pacote not found. Installing...${RESET}"
             sudo apt install -y "$pacote"
         else
-            echo -e "${GREEN}[${YELLOW}+ ${GREEN}] Pacote $pacote já está instalado.${RESET}"
+            # If already installed, confirm
+            echo -e "${GREEN}[${YELLOW}+ ${GREEN}] Package $pacote is already installed.${RESET}"
         fi
     done
 }
 
-# pretendo mudar a cor do banner. ficou mt ruimmmm
-# vou fazer um efeito fade azul. mas to com preguiça agora xD
+# Main menu function
 menu_principal()
 {
     clear
@@ -83,22 +93,25 @@ menu_principal()
     ╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝╚═╝╚═╝     ╚═╝╚═╝  ╚═╝   ╚═╝   ╚══════╝
                                                                 ${RESET}"
 
+    # List options in the main menu
     echo -e "
-    [1] Conjuntos de ferramentas do Kali
-    [2] Personalização
-    [3] Configurar sistema para português
-    [4] Sair
+    [1] Kali Tools Sets
+    [2] Customization
+    [3] Configure system for Portuguese
+    [4] Exit
     "
 
-    echo -e "${GREEN}[${YELLOW} + ${GREEN}] Selecione a sua escolha abaixo: "
+    # Prompt user for their choice
+    echo -e "${GREEN}[${YELLOW} + ${GREEN}] Select your choice below: "
     read escolha
 }
 
+# Menu for selecting Kali Linux tools
 menu_ferramentas()
 {
     clear
     echo -e "
-[1] Kali Linux Padrao
+[1] Kali Linux Default Tools
 [2] Kali Linux All Tools
 [3] Kali Linux Penetration Testing Tools
 [4] Kali Linux Wireless Tools
@@ -106,9 +119,10 @@ menu_ferramentas()
 [6] Kali Linux Forensics Tools
 [M] Menu
 "
-    echo -n "${GREEN}[${YELLOW} + ${GREEN}] Selecione os conjuntos de ferramentas que deseja baixar: "
+    echo -n "${GREEN}[${YELLOW} + ${GREEN}] Select the tools you want to download: "
     read escolha2
 
+    # Execute installation based on user's choice
     case $escolha2 in
         1) sudo apt install kali-linux-default ;;
         2) sudo apt install kali-linux-everything ;;
@@ -116,26 +130,28 @@ menu_ferramentas()
         4) sudo apt install kali-tools-wireless ;;
         5) sudo apt install kali-tools-web ;;
         6) sudo apt install kali-tools-forensics ;;
-        M|m) echo "Voltando ao menu principal..." ;;
-        *) echo -e "${BLUE}[ ${YELLOW} ! ${BLUE}]${RED} Opção inválida!${RESET}" ;;
+        M|m) echo "Returning to the main menu..." ;;
+        *) echo -e "${BLUE}[ ${YELLOW} ! ${BLUE}]${RED} Invalid option!${RESET}" ;;
     esac
 }
 
+# Customization menu for selecting Desktop Environments and Terminals
 menu_personalizacao()
 {
     clear
-    echo -n "${GREEN}[${YELLOW} + ${GREEN}] Selecione a opção desejada: "
-    echo "${RED}[${YELLOW} ! ${RED}] Caso não saiba o que são DEs: https://wiki.archlinux.org/title/Desktop_environment"
+    echo -n "${GREEN}[${YELLOW} + ${GREEN}] Select the desired option: "
+    echo "${RED}[${YELLOW} ! ${RED}] If you don't know what DEs are: https://wiki.archlinux.org/title/Desktop_environment"
 
     echo -e "
-DESKTOP ENVIRONMENTS (DEs)     Terminais
+DESKTOP ENVIRONMENTS (DEs)     Terminals
 [1] Kali Desktop Core          [5] Kitty
-[2] XFCE (Padrão do Kali)      [6] Terminator
+[2] XFCE (Kali default)        [6] Terminator
 [3] GNOME                      [7] Konsole
 [4] KDE                        [M] Menu
 "
 
     read -r escolha3
+    # Install the selected desktop environment or terminal
     case $escolha3 in
         1) sudo apt install kali-desktop-core ;;
         2) sudo apt install kali-desktop-xfce ;;
@@ -144,55 +160,26 @@ DESKTOP ENVIRONMENTS (DEs)     Terminais
         5) sudo apt install kitty ;;
         6) sudo apt install terminator ;;
         7) sudo apt install konsole ;;
-        M|m) echo "${GREEN}[${YELLOW}+ ${GREEN}] Voltando ao menu principal..." ;;
-        *) echo -e "${BLUE}[ ${YELLOW}! ${BLUE}]${RED} Opção inválida!${RESET}" ;;
+        M|m) echo "${GREEN}[${YELLOW}+ ${GREEN}] Returning to the main menu..." ;;
+        *) echo -e "${BLUE}[ ${YELLOW}! ${BLUE}]${RED} Invalid option!${RESET}" ;;
     esac
 }
 
+# Function to configure system language and settings for Portuguese
 idioma_sistema()
 {
     clear
-    echo -e "${BLUE}[${YELLOW} + ${BLUE}]${GREEN} Configurando o sistema para português...${RESET}"
+    echo -e "${BLUE}[${YELLOW} + ${BLUE}]${GREEN} Configuring the system for Portuguese...${RESET}"
 
-    echo "${GREEN}[${YELLOW} + ${GREEN}] Configurando o idioma para pt_BR.UTF-8..."
+    # Set language to Portuguese (pt_BR.UTF-8)
+    echo "${GREEN}[${YELLOW} + ${GREEN}] Setting language to pt_BR.UTF-8..."
     sudo locale-gen pt_BR.UTF-8
     sudo update-locale LANG=pt_BR.UTF-8 LC_ALL=pt_BR.UTF-8
     
-    echo "${GREEN}[${YELLOW} + ${GREEN}] Definindo o teclado para ABNT2..."
+    # Set keyboard layout to ABNT2 (Brazilian layout)
+    echo "${GREEN}[${YELLOW} + ${GREEN}] Setting keyboard layout to ABNT2..."
     sudo localectl set-x11-keymap br abnt2
     
-    echo "${GREEN}[${YELLOW} + ${GREEN}] Definindo o fuso horário para Brasília..."
+    # Set timezone to São Paulo (Brazil)
+    echo "${GREEN}[${YELLOW} + ${GREEN}] Setting timezone to São Paulo..."
     sudo timedatectl set-timezone America/Sao_Paulo
-    
-    echo "${GREEN}[${YELLOW} + ${GREEN}] Definindo a localidade do sistema..."
-    sudo localectl set-locale LANG=pt_BR.UTF-8
-    
-    sudo dpkg-reconfigure --frontend noninteractive locales
-    
-    echo -e "${BLUE}[${YELLOW} + ${BLUE}]${GREEN} Configuração concluída! Reinicie o sistema para aplicar as mudanças.${RESET}"
-}
-
-    editar_sources_list
-    verifica_dependencias
-
-
-# menu principal(obvio)
-# pretendo adicionar mais coisas... ou nao kk :^)
-
-
-while true; do
-    menu_principal
-    case $escolha in
-        1) menu_ferramentas ;;
-        2) menu_personalizacao ;;
-        3) idioma_sistema ;;
-        4) clear; echo "Saindo..."; exit 0 ;;
-        *) echo -e "${BLUE}[ ${YELLOW} ! ${BLUE}]${RED} Opção inválida!${RESET}" ;;
-    esac    
-
-    echo -e "${BLUE}[ ${YELLOW} ? ${BLUE}]${GREEN} Deseja voltar ao menu? (S/N)${RESET}"
-    read -r voltar
-    if [[ ! "$voltar" =~ ^[Ss]$ ]]; then
-        break
-    fi
-done
